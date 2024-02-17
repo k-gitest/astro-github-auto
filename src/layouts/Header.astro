@@ -1,0 +1,72 @@
+---
+import AuthButton from "@/components/AuthButton.svelte"
+const authId = Astro.locals.id
+---
+
+<div class="headerWrap">
+  <h1 class="logoTitle">astro</h1>
+  <nav>
+    <ul class="navLink">
+      <li><a href="/">top</a></li>
+      <li><a href="/about">about</a></li>
+    </ul>
+    <ul class="authUser">
+      {authId && 
+        <li><a href="/dashboard">dashboard</a></li>
+        <li>
+          <form action="/api/auth/signout">
+            <button type="submit">Sign out</button>
+          </form>
+        </li>
+      }
+      {!authId && 
+        <li><a href="/signin" class="loginButton">ログイン</a></li>
+      }
+      <li><AuthButton client:load /></li>
+    </ul>
+  </nav>
+</div>
+
+<style>
+  .headerWrap {
+    display: flex;
+    max-width:100%;
+    padding: 1rem;
+  }
+  .logoTitle {
+    display: inline-block;
+    font-size: 3rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav {
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .navLink {
+    display: flex;
+    list-style: none;
+  }
+
+  .navLink li {
+    width: 100px;
+    height: 70px;
+  }
+
+  .authUser {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+  }
+
+  .loginButton {
+    border-radius: 10px;
+    background-color: #348734;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+  }
+</style>

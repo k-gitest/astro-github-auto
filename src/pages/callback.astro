@@ -1,0 +1,30 @@
+<script is:inline>
+
+  const hash = window.location.hash;
+
+  if (hash) {
+    const paramsArray = hash.substring(1).split('&');
+
+    const params = {};
+    paramsArray.forEach(param => {
+      const [key, value] = param.split('=');
+      params[key] = decodeURIComponent(value);
+    });
+
+    const accessToken = params['access_token'];
+    const expiresIn = params['expires_in'];
+    const refreshToken = params['refresh_token'];
+
+    document.cookie = `sb-access-token=${accessToken};max-age=${expiresIn};SameSite=Strict;secure;`
+    document.cookie = `sb-refresh-token=${refreshToken};max-age=${expiresIn};SameSite=Strict;secure;`
+  }
+  else {
+    throw new Error('hashがありません');
+  }
+  if (document.cookie) {
+    window.location.href = "/dashboard"
+  } else {
+    throw new Error('cookieがありません');
+  }
+
+</script>

@@ -1,0 +1,12 @@
+---
+import SigninoutLayout from "@/layouts/SigninoutLayout.astro";
+import AuthForm from '@/components/auth/AuthForm.astro'
+
+export const prerender = true
+---
+
+<SigninoutLayout title="Register">
+  <AuthForm title="Register" apipath="/api/auth/register">
+    <p>既にアカウントをお持ちですか? <a href="/signin">サインインしてください</a></p>
+  </AuthForm>
+</SigninoutLayout>

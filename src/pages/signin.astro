@@ -1,0 +1,27 @@
+---
+  import SigninoutLayout from "@/layouts/SigninoutLayout.astro";
+  import AuthForm from '@/components/auth/AuthForm.astro'
+  import AuthFormSvelte from '@/components/auth/AuthFormSvelte.svelte'
+  import AuthFormOAuth from '@/components/auth/AuthFormOAuth.astro'
+
+  export const prerender = true
+---
+
+<SigninoutLayout title="Sign in">
+  <div class="formwrap">
+    <AuthForm title="Astro Sign in" apipath="/api/auth/signin">
+      <p>初めてですか? <a href="/register">アカウントを作成してください</a></p>
+    </AuthForm>
+    <AuthFormSvelte title="Svelte Sign in" path="/api/auth/signin" client:load>
+      <p>初めてですか? <a href="/register">アカウントを作成してください</a></p>
+    </AuthFormSvelte>
+    <AuthFormOAuth title="OAuth Sign in" />
+  </div>
+</SigninoutLayout>
+
+<style>
+  .formwrap {
+    display: flex;
+    height: calc(100lvh - 104px);
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import UserData from '@/components/UserData.svelte'
+import UserAuth from '@/components/UserAuth.svelte'
+import NotesData from '@/components/note/NotesData.svelte'
+
+const email: string = Astro.locals.email
+const uid: string = Astro.locals.id
+---
+<Layout title="dashboard">
+  <h1>Welcome {email}</h1>
+  <p>We are happy to see you here</p>
+
+  <UserData client:load />
+  <UserAuth userid={uid} client:load />
+  <NotesData client:load />
+  
+  <form action="/api/auth/signout">
+    <button type="submit">Sign out</button>
+  </form>
+</Layout>

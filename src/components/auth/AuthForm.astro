@@ -1,0 +1,141 @@
+---
+  type Props = {
+    title: string;
+    apipath: string;
+  }
+  const { title, apipath }: Props = Astro.props
+---
+
+<script is:inline>
+
+  async function handleAuthSubmit(event) {
+    event.preventDefault();
+    console.log(this.path)
+    const formData = new FormData(event.target);
+
+    const response = await fetch(this.path, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
+      if (this.path === '/api/auth/signin') {
+        window.location.href = "/dashboard";
+      } else {
+        window.location.href = "/signin"
+      }
+
+    } else {
+      const errorTxt = document.getElementById('error')
+      const errorMessage = await response.text();
+      errorTxt.innerHTML = errorMessage
+    }
+  }
+
+  function handleBlur(event) {
+    const { name, value } = event.target;
+    const errorTxt = document.getElementById('error');
+    errorTxt.innerHTML = "";
+
+    if (name === 'email') {
+      if (!value || !value.trim()) {
+        errorTxt.innerHTML = "メールアドレスを入力してください";
+      } else if (!isValidEmail(value)) {
+        errorTxt.innerHTML = "有効なメールアドレスを入力してください";
+      }
+    } else if (name === 'password') {
+      if (!value || !value.trim()) {
+        errorTxt.innerHTML = "パスワードを入力してください";
+      } else if (value.trim().length < 6) {
+        errorTxt.innerHTML = "パスワードは少なくとも6文字以上で入力してください";
+      }
+    }
+  }
+
+  function isValidEmail(email) {
+    return email.includes('@');
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('authForm');
+
+    if (form) {
+      const actionPath = new URL(form.action).pathname;
+      form.addEventListener('submit', { path: actionPath, handleEvent: handleAuthSubmit });
+
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      emailInput.addEventListener('blur', handleBlur);
+      passwordInput.addEventListener('blur', handleBlur);
+    }
+  });
+
+</script>
+
+<div class="contentWrap">
+  <h1>{title}</h1>
+  <slot />
+  <div>
+    <p id="error"></p>
+  </div>
+
+  <form id="authForm" action={apipath}>
+    <div class="formWrap">
+      <label for="email"><span>Email</span>
+        <input type="email" name="email" id="email" autocomplete="email" required />
+      </label>
+      <label for="password"><span>Password</span>
+        <input type="password" name="password" id="password" autocomplete="current-password" required />
+      </label>
+      <button type="submit">Login</button>
+    </div>
+  </form>
+</div>
+
+<style lang="scss">
+  .contentWrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #error {
+    margin: 0;
+    padding: 0;
+    color: red;
+  }
+
+  .formWrap {
+    max-width: 300px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid #ccc;
+    border-radius: .7rem;
+    padding: 1rem;
+
+    label {
+      margin: 0;
+      padding: 0;
+    }
+
+    span {
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      max-width: 200px;
+      height: 30px;
+      cursor: pointer;
+    }
+  }
+</style>

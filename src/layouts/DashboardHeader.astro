@@ -1,0 +1,49 @@
+---
+const authCheck = Astro.cookies.get("sb-access-token");
+---
+
+<div class="headerWrap">
+  <h1 class="logoTitle">astro</h1>
+  <nav>
+    <ul class="navLink">
+      <li><a href="/">top</a></li>
+      <li><a href="/about">about</a></li>
+      {authCheck && 
+      <li>
+        <a href="/dashboard">dashboard</a>
+      </li>
+      <li>
+        <form action="/api/auth/signout">
+          <button type="submit">Sign out</button>
+        </form>
+      </li>
+      }
+      {!authCheck && 
+        <li><a href="/register">register</a></li>
+        <li><a href="/signin">signin</a></li>
+      }
+    </ul>
+  </nav>
+</div>
+
+<style>
+  .headerWrap {
+    display: flex;
+  }
+  .logoTitle {
+    display: inline-block;
+    font-size: 3rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navLink {
+    display: flex;
+    list-style: none;
+  }
+
+  .navLink li {
+    width: 100px;
+    height: 70px;
+  }
+</style>
