@@ -13,7 +13,7 @@ create astro@latest -- --template basicsとSupabaseで構築されたwebアプ�
 
 ### 自動化の流れ
 
-- git -> push / pr -> github actions -> type test -> unit test -> e2e test -> build -> deploy -> netlify
+- git -> push -> github actions -> type test -> unit test -> e2e test -> build ->  pr -> merge -> deploy -> netlify
 
 ## 開発環境
 
@@ -56,6 +56,8 @@ create astro@latest -- --template basicsとSupabaseで構築されたwebアプ�
 - nixではブラウザインストール時にsudo aptが使用できずライブラリのエラーが出る
 
 - default.nixやshell.nixにplaywright-testのpkgを入れたら使用できる
+
+- pull requestをgithub actionsで自動化するためpeter-evans/create-pull-requestを使用したが、branchとbaseで上手く行かないのでgithub APIを利用してpull requestをcurlでPOST、もしくはgithub cliで作成すると上手くいった
 
 ### github actions 速度改善
 
