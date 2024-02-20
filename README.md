@@ -13,7 +13,7 @@ create astro@latest -- --template basicsとSupabaseで構築されたwebアプ�
 
 ### 自動化の流れ
 
-- git -> push -> github actions -> type test -> unit test -> e2e test -> build ->  pr -> merge -> deploy -> netlify
+- git -> push -> github actions -> pr -> type test -> unit test -> build -> approve -> merge -> deploy -> netlify -> e2e test
 
 ## 開発環境
 
@@ -58,6 +58,8 @@ create astro@latest -- --template basicsとSupabaseで構築されたwebアプ�
 - default.nixやshell.nixにplaywright-testのpkgを入れたら使用できる
 
 - pull requestをgithub actionsで自動化するためpeter-evans/create-pull-requestを使用したが、branchとbaseで上手く行かないのでgithub APIを利用してpull requestをcurlでPOST、もしくはgithub cliで作成すると上手くいった
+
+- workflowを一つにまとめようとしたが、イベント取得の待機時間の事を考えた場合2つに分けた方が分かりやすい
 
 ### github actions 速度改善
 
