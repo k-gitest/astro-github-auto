@@ -13,7 +13,13 @@ create astro@latest -- --template basicsとSupabaseで構築されたwebアプ�
 
 ### 自動化の流れ
 
-- git -> push -> github actions -> pr -> type test -> unit test -> build -> approve -> merge -> deploy -> netlify -> e2e test
+- git -> push dev -> github actions -> pr -> type test -> unit test -> build -> deploy stg -> e2e test
+- approve -> merge -> build -> deploy prd -> e2e test
+
+dev/***以下でも同じ流れ
+
+- git -> push dev/*** -> github action -> pr -> type test -> unit test -> build -> deploy dev -> e2e test
+- approve -> merge
 
 ## 開発環境
 
