@@ -1,7 +1,7 @@
 # 目的
 
 AstroとSupabaseを使用したwebアプリケーション
-github actionsによるテスト・ビルド・デプロイの自動化
+github actionsによるPRからテスト・ビルド・デプロイ・リリースの自動化
 
 ## 概要
 
@@ -10,16 +10,6 @@ create astro@latest -- --template basicsとSupabaseで構築されたwebアプ�
 プロトタイプとなっているプロジェクトは以下の通り
 
 [プロトタイプ](https://github.com/k-gitest/astro-svelte-supabase-prototype)
-
-### 自動化の流れ
-
-- git -> push dev -> github actions -> pr -> type test -> unit test -> build -> deploy stg -> e2e test
-- approve -> merge -> build -> deploy prd -> e2e test
-
-dev/***以下でも同じ流れ
-
-- git -> push dev/*** -> github action -> pr -> type test -> unit test -> build -> deploy dev -> e2e test
-- approve -> merge
 
 ## 開発環境
 
@@ -55,6 +45,20 @@ dev/***以下でも同じ流れ
 └── .github/workflows
 ```
 
+### 自動化の流れ
+
+dev branch -> main branch 
+
+- git -> push dev -> github actions -> pr label -> type test -> unit test -> build -> deploy stg -> e2e test
+- approve -> merge -> build -> deploy prd -> e2e test -> release tag and note(semVer)
+
+dev/***以下でも同じ流れ
+
+dev/*** branch -> dev branch
+
+- git -> push dev/*** -> github action -> pr label -> type test -> unit test -> build -> deploy dev -> e2e test
+- approve -> merge -> release tag and note(date)
+
 ## 注意点
 
 - netlifyへのデプロイはSSGの場合はnwtgck/actions-netlifyなどを使用しても良いとは思うが、SSRの場合はenvを読み込むのでNetlify CLIを使用する
@@ -87,3 +91,6 @@ dev/***以下でも同じ流れ
 
 - なるべく公式が配布しているパッケージなどを使用した方が時間を無駄にしなくて済む
 
+- productionデプロイに関しては幾つか手法があるのでissuesにしておく
+
+- releaseのタグとノートに関しても同じくissuesにしておく
