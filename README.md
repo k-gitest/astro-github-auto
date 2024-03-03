@@ -71,6 +71,18 @@ dev/*** branch -> dev branch
 
 - workflowを一つにまとめようとしたが、イベント取得の待機時間の事を考えた場合2つに分けた方が分かりやすい
 
+- prismaでsupabase databaseのauth.usersスキーマは保護されており扱えない、同じくstorageスキーマも扱えない、外部キーでのリレーションも不可
+
+- 仮想でauth.usersを作成してマッピングするかpublicスキーマにauth.usersをコピーするかしかない
+
+- リレーションはsupabase側で行う方が良い
+
+- supabase storage内の画像を削除するにはanon keyではなくrole keyが必要
+
+- storage.objects以外に画像のパスを格納し、そのパスを更新した場合（例：avatarの画像など）、画像はユーザーレコードを削除してもstorage内に残り続ける
+
+- ユーザー削除と同時にストレージ内画像も消すにはトリガー関数で消す必要がある、クライアント側でもrpcで可能、どちらにしてもAPIリクエストする処理になる
+
 ### github actions 速度改善
 
 - actions cacheを利用してインストールをスキップさせて時間を短縮する
